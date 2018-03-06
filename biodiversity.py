@@ -120,7 +120,7 @@ species.groupby('conservation_status').scientific_name.nunique().reset_index()
 # In[10]:
 
 
-protection_counts = species.groupby('conservation_status')    .scientific_name.count().reset_index()    .sort_values(by='scientific_name')
+protection_counts = species.groupby('conservation_status')    .scientific_name.nunique().reset_index()    .sort_values(by='scientific_name')
 protection_counts
 
 
@@ -314,10 +314,7 @@ str2 = 'This string contains Cows'
 # In[27]:
 
 
-species['is_sheep'] = species.apply(lambda row:                                   True
-                                   if 'Sheep' in row['common_names']
-                                   else False,
-                                   axis =1)
+species['is_sheep'] = species.common_names.apply(lambda x: 'Sheep' in x)
 species.head()
 
 
@@ -326,7 +323,7 @@ species.head()
 # In[28]:
 
 
-species[species.is_sheep == True]
+species[species.is_sheep]
 
 
 # Many of the results are actually plants.  Select the rows of `species` where `is_sheep` is `True` and `category` is `Mammal`.  Save the results to the variable `sheep_species`.
